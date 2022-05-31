@@ -3,7 +3,7 @@ using namespace std;
 class Property {
 public:
     double worth;
-    explicit Property(double worth) : worth(worth) {
+    explicit Property(double _worth) : worth(_worth) {
     }
 
 };
