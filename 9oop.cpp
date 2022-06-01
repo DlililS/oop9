@@ -5,6 +5,7 @@ public:
     double worth;
     explicit Property(double _worth) : worth(_worth) {
     }
+    virtual ~Property() {}
 
 };
 class Apartment : public Property {
