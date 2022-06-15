@@ -1,48 +1,84 @@
-﻿#include <iostream>
-using namespace std;
+Nalog.h
+#pragma once
+#ifndef NALOG_H
+#define NALOG_H
+#include <iostream>
 class Property {
+protected:
+	double worth;
 public:
-    double worth;
-    explicit Property(double _worth) : worth(_worth) {
-    }
-    virtual ~Property() {}
-
+	Property();
+	Property(double n);
+	virtual void nal() = 0;
 };
+
 class Apartment : public Property {
 public:
-    explicit Apartment(double worth);
+	Apartment() : Property() {};
+	Apartment(double n);
+	void nal();
 };
-
-Apartment::Apartment(double worth) : Property(worth) {
-    cout << worth / 1000 << endl;
-
-}
-
-
 
 class Car : public Property {
 public:
-    explicit Car(double worth);
+	Car() : Property() {};
+	Car(double n);
+	void nal();
 };
 
-Car::Car(double worth) : Property(worth) {
-    cout << worth / 1200 << endl;
-}
 class CountryHouse : public Property {
 public:
-    explicit CountryHouse(double worth);
+	CountryHouse() : Property() {};
+	CountryHouse(double n);
+	void nal();
 };
 
-CountryHouse::CountryHouse(double worth) : Property(worth) {
-    cout << worth / 1500 << endl;
+#endif
+
+9.cpp
+#include "Nalog.h"
+int main()
+{
+	setlocale(LC_ALL, "rus");
+	Property* ar[7];
+	for (int i = 0; i < 7; i++)
+	{
+		if (i < 3)
+		{
+			ar[i] = new Apartment(rand() % 1000 + 10000);
+		}
+		else if (i < 5) {
+			ar[i] = new Car(rand() % 1000 + 10000);
+		}
+		else {
+			ar[i] = new CountryHouse(rand() % 1000 + 10000);
+		}
+
+	}
+	for (int i = 0; i < 7; i++) {
+		ar[i]->nal();
+		delete[] ar[i];
+	}
+
 }
 
-int main() {
-    Property* objects[9];
-    for (int i = 1; i < 9; ++i)
-    {
-        if (i <= 3) objects[i] = new Apartment(i * 10000);;
-        if ((i > 3) && (i < 6)) objects[i] = new Car(i * 10000);
-        if ((i > 6) && (i < 9)) objects[i] = new CountryHouse(i * 10000);
-    }   return 0;
+
+Nalog.cpp
+#include "Nalog.h"
+Property::Property() :worth(0) {};
+Property::Property(double n) :worth(n) {};
+
+Apartment::Apartment(double n) : Property(worth) {};
+void Apartment::nal() {
+	std::cout << "Налог на квартиру: " << worth / 1000 << std::endl;
+}
+
+Car::Car(double n) : Property(worth) {};
+void Car::nal() {
+	std::cout << "Налог на машину: " << worth / 200 << std::endl;
+}
+
+CountryHouse::CountryHouse(double n) : Property(worth) {};
+void CountryHouse::nal() {
+	std::cout << "Налог на дачу: " << worth / 500 << std::endl;
 }
